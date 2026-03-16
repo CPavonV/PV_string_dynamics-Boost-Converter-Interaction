@@ -13,15 +13,15 @@ PV_string_dynamics-Boost-Converter-Interaction/
 ├── LTSpice_files/
 │   ├── PV_BoostConverter.asc           # Main LTSpice schematic
 │   ├── PWM.asy                         # PWM generator symbol
-│   ├── SDM_PV_model.asc               # Enhanced single-diode model circuit
-│   ├── SDM_PV_model.asy               # Enhanced single-diode model symbol
+│   ├── SDM_PV_model.asc                # Enhanced single-diode model circuit
+│   ├── SDM_PV_model.asy                # Enhanced single-diode model symbol
 │   ├── Single_Boost_STEPS.txt          # PWL duty-cycle perturbation signal
 │   ├── dead_time.asy                   # Dead-time & complementary gate symbol
 │   └── switching.lib                   # Switching library for power electronics
-├── schematic_overview.pdf              # Annotated schematic screenshot
 ├── .gitignore
+├── README.md
 ├── LICENSE
-└── README.md
+└── schematic_overview.pdf              # Annotated schematic screenshot 
 ```
 
 ## Circuit Description
