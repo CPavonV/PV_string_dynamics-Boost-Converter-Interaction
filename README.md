@@ -4,21 +4,24 @@ LTSpice simulation framework for studying the dynamic interaction between a phot
 
 The goal is to characterize the PV-converter system transient response by applying controlled step stimuli around an operating point, enabling impedance extraction and linearity assessment directly from time-domain waveforms.
 
-![Schematic overview](schematic_overview.pdf)
+![Schematic overview](schematic_overview.png)
 
 ## Repository Structure
 
 ```
 PV_string_dynamics-Boost-Converter-Interaction/
 ├── LTSpice_files/
-│   └── PV_Dynamics_Assessment.asc      # Main LTSpice schematic
-|   ├── .gitignore
-|   ├── .gitignore
-|   └── schematic_overview.pdf          # Annotated schematic screenshot
+│   ├── PV_BoostConverter.asc           # Main LTSpice schematic
+│   ├── PWM.asy                         # PWM generator symbol
+│   ├── SDM_PV_model.asc               # Enhanced single-diode model circuit
+│   ├── SDM_PV_model.asy               # Enhanced single-diode model symbol
+│   ├── Single_Boost_STEPS.txt          # PWL duty-cycle perturbation signal
+│   ├── dead_time.asy                   # Dead-time & complementary gate symbol
+│   └── switching.lib                   # Switching library for power electronics
+├── schematic_overview.pdf              # Annotated schematic screenshot
 ├── .gitignore
 ├── LICENSE
-├── README.md
-└── schematic_overview.pdf          # Annotated schematic screenshot
+└── README.md
 ```
 
 ## Circuit Description
