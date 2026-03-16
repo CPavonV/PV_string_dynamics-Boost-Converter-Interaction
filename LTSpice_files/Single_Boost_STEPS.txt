@@ -1,0 +1,36 @@
+; LTSpice PWL file - Control Signal
+; d0=0.675 (MPP)  d_up=0.685  d_down=0.665
+;
+; Usage: V1 net+ net- PWL file=control_signal.txt
+; Directive: .tran 19m
+;
+; time [s]      value
+; --- Ramp to MPP ---
+0               0
+1m              0.675
+; --- Hold at MPP ---
+3m              0.675
+; --- Small step up ---
+3.000001m       0.685
+5m              0.685
+; --- Return to MPP ---
+5.000001m       0.675
+7m              0.675
+; --- Small step down ---
+7.000001m       0.665
+9m              0.665
+; --- Return to MPP ---
+9.000001m       0.675
+11m             0.675
+; --- Extreme: drop to lowest ---
+11.000001m      0.665
+13m             0.665
+; --- Extreme: full swing up to highest ---
+13.000001m      0.685
+15m             0.685
+; --- Extreme: full swing down to lowest ---
+15.000001m      0.665
+17m             0.665
+; --- Return to MPP ---
+17.000001m      0.675
+19m             0.675
