@@ -86,13 +86,15 @@ $$\delta = 1 - \frac{V_{PV}}{V_{out}}$$
 The simulation applies the following duty-cycle sequence around **δ₀ = 0.675**:
 
 ```
-     d_up ─ ─ ─ ─ 0.685  ┌────┐                 ┌─────┐
-                         │    │                 │     │
-     d0 ─ ─ ─ ─ ─ 0.675─ ┤    ├────┐     ┌──────┤     │     ┌────
-                         │    │    │     │      │     │     │
-     d_dn ─ ─ ─ ─ 0.665  │    │    └─────┘      │     └─────┘
-                         │    │                 │
-           ╱─────────────┘    │                 │
+     d_up ─ ─ ─ ─ 0.685  ┌────┐                ┌─────┐
+                         │    │                │     │
+     d0 ─ ─ ─ ─ ─ 0.675─ ┤    ├────┐     ┌─────┤     │     ┌────
+                         │    │    │     │     │     │     │
+     d_dn ─ ─ ─ ─ 0.665  │    │    └─────┘     │     └─────┘
+                         │    │                │
+           ╱─────────────┘    │                │
+          ╱   ramp  hold  sm.   sm.   sm.  sm.   lrg.  lrg.  lrg.   settle
+         0     1    3    5    7    9    11    13    15    17   19 ms
 ```
 
 The first four steps (±0.01 around center) test the small-signal regime. The final three steps (full ±0.02 swing) test large-signal linearity. If the transient settling shape changes significantly between the two regimes, the operating point is near the boundary of the linear region.
