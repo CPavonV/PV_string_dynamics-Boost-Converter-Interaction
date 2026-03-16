@@ -4,7 +4,7 @@ LTSpice simulation framework for studying the dynamic interaction between a phot
 
 The goal is to characterize the PV-converter system transient response by applying controlled step stimuli around an operating point, enabling impedance extraction and linearity assessment directly from time-domain waveforms.
 
-![Schematic overview](docs/schematic_overview.png)
+![Schematic overview](Schematic.pdf)
 
 ## Repository Structure
 
