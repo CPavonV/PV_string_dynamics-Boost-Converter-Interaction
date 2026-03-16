@@ -10,18 +10,15 @@ The goal is to characterize the PV-converter system transient response by applyi
 
 ```
 PV_string_dynamics-Boost-Converter-Interaction/
-├── schematic/
+├── LTSpice_files/
 │   └── PV_Dynamics_Assessment.asc      # Main LTSpice schematic
-├── stimuli/
-│   └── Single_Boost_STEPS.txt          # PWL duty-cycle perturbation signal
-├── lib/
-│   ├── switching.lib                   # Dead-time & complementary gate logic
-│   └── <PV subcircuit files>           # Single-diode model subcircuit
-├── docs/
-│   └── schematic_overview.pdf          # Annotated schematic screenshot
+|   ├── .gitignore
+|   ├── .gitignore
+|   └── schematic_overview.pdf          # Annotated schematic screenshot
 ├── .gitignore
 ├── LICENSE
-└── README.md
+├── README.md
+└── schematic_overview.pdf          # Annotated schematic screenshot
 ```
 
 ## Circuit Description
