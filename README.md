@@ -28,7 +28,7 @@ PV_string_dynamics-Boost-Converter-Interaction/
 
 The circuit consists of three main blocks:
 
-**PV Source (X1)** — A single-diode model (SDM) subcircuit representing a PV string with Ns=32 series cells and Np=1 parallel string. The model includes junction capacitance and transit-time parameters for dynamic behavior. An auxiliary `IV_curve` source is provided for initial I–V characterization via DC sweep.
+**PV Source (X1)** — An enhanced single-diode model (eSDM) subcircuit representing a PV string with Ns=32 series cells and Np=1 parallel string. The model includes junction capacitance and transit-time parameters for dynamic behavior. An auxiliary `IV_curve` source is provided for initial I–V characterization via DC sweep.
 
 **Synchronous Boost Converter** — Built around two IRFP4668 MOSFETs (M1 low-side, M2 high-side) with 80 µH inductor, 18 µF input capacitor, and 4.7 µF output capacitor. Switching frequency is 100 kHz with 100 ns dead time. The output is loaded by a 48 V battery model (with 2.4 Ω series resistance). Gate drivers (U1, U3) are powered by independent 12 V supplies.
 
@@ -38,7 +38,7 @@ The circuit consists of three main blocks:
 
 | Parameter | Value | Description |
 |-----------|-------|-------------|
-| Ns, Np | 32, 1 | Series cells, parallel strings |
+| Ns, Np | 32, 1 | Series cells (2-panels), parallel strings |
 | Iph | 5.9829 A | Photogenerated current |
 | Rsh | 20 Ω | Shunt resistance |
 | Rs | 500 µΩ | Series resistance |
