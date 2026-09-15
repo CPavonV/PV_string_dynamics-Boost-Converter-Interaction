@@ -1,36 +1,123 @@
-; LTSpice PWL file - Control Signal
-; d0=0.675 (MPP)  d_up=0.685  d_down=0.665
+; ===========================================================
+; Experimental Protocol: I-V Characterization + Cj0 Sensitivity
+; ===========================================================
+; Converter : Synchronous boost, Vbatt=48V, fsw=100kHz
+; PV String : 32 cells (Ns=32, Np=1), SOLBIAN SP16L
+; MPP       : D0=0.77, Vpv=12.64V, Ipv=5.38A, Ppv=68.0W
 ;
-; Usage: V1 net+ net- PWL file=control_signal.txt
-; Directive: .tran 19m
+; P&O base perturbation: D' = 0.03
+;   Small-signal: D0 +/- D'   = {0.74, 0.80}
+;   Large-signal: D0 +/- 2*D' = {0.71, 0.83}
 ;
-; time [s]      value
-; --- Ramp to MPP ---
-0               0
-1m              0.675
-; --- Hold at MPP ---
-3m              0.675
-; --- Small step up ---
-3.000001m       0.685
-5m              0.685
-; --- Return to MPP ---
-5.000001m       0.675
-7m              0.675
-; --- Small step down ---
-7.000001m       0.665
-9m              0.665
-; --- Return to MPP ---
-9.000001m       0.675
-11m             0.675
-; --- Extreme: drop to lowest ---
-11.000001m      0.665
-13m             0.665
-; --- Extreme: full swing up to highest ---
-13.000001m      0.685
-15m             0.685
-; --- Extreme: full swing down to lowest ---
-15.000001m      0.665
-17m             0.665
-; --- Return to MPP ---
-17.000001m      0.675
-19m             0.675
+; LTspice directives:
+;   .step param Cjo list 0 2.3e-3 5e-3 10e-3 20e-3
+;   .tran 75m
+;
+; ===========================================================
+; MEASUREMENT DIRECTIVES (paste into schematic)
+; ===========================================================
+;
+; --- Phase 2: Small-signal (D' = 0.03) ---
+;   .meas TRAN Ipk_ss_dn  MIN  -Ix(X1:voc) FROM 35m TO 39m
+;   .meas TRAN Ipk_ss_ret1 MAX -Ix(X1:voc) FROM 39m TO 43m
+;   .meas TRAN Ipk_ss_up  MAX  -Ix(X1:voc) FROM 43m TO 47m
+;   .meas TRAN Ipk_ss_ret2 MIN -Ix(X1:voc) FROM 47m TO 51m
+;   .meas TRAN Vpk_ss_dn  MAX  V(Vp)       FROM 35m TO 39m
+;   .meas TRAN Vpk_ss_up  MIN  V(Vp)       FROM 43m TO 47m
+;   .meas TRAN Pss_mpp    AVG  V(Vp)*(-Ix(X1:voc)) FROM 33m TO 35m
+;   .meas TRAN Pss_dn     AVG  V(Vp)*(-Ix(X1:voc)) FROM 38m TO 39m
+;   .meas TRAN Pss_up     AVG  V(Vp)*(-Ix(X1:voc)) FROM 46m TO 47m
+;
+; --- Phase 3: Large-signal (2*D' = 0.06) ---
+;   .meas TRAN Ipk_ls_dn  MIN  -Ix(X1:voc) FROM 51m TO 55m
+;   .meas TRAN Ipk_ls_ret1 MAX -Ix(X1:voc) FROM 55m TO 59m
+;   .meas TRAN Ipk_ls_up  MAX  -Ix(X1:voc) FROM 59m TO 63m
+;   .meas TRAN Ipk_ls_ret2 MIN -Ix(X1:voc) FROM 63m TO 67m
+;   .meas TRAN Pls_dn     AVG  V(Vp)*(-Ix(X1:voc)) FROM 54m TO 55m
+;   .meas TRAN Pls_up     AVG  V(Vp)*(-Ix(X1:voc)) FROM 62m TO 63m
+;
+; ===========================================================
+; time [s]       duty cycle
+; ===========================================================
+;
+; ===========================================================
+; PHASE 0: I-V Curve Characterization (0 - 25 ms)
+; Slow linear ramp D=0.10 -> 0.90 over 20 ms
+; Rate: dD/dt = 0.04/ms (quasi-static for all Cj0 values)
+; Purpose: simulated I-V curve, baseline ripple per region
+; ===========================================================
+;
+0                0.10
+2m               0.10
+2m               0.10
+22m              0.90
+22m              0.90
+25m              0.90
+;
+; ===========================================================
+; PHASE 1: Fast Return to MPP + Settling (25 - 35 ms)
+; Purpose: establish clean MPP steady state before steps
+; Hold: 5 ms at D0 guarantees settling for all Cj0 values
+; ===========================================================
+;
+25.000001m       0.77
+30m              0.77
+35m              0.77
+;
+; ===========================================================
+; PHASE 2: Small-Signal P&O Steps (35 - 51 ms)
+; Perturbation: D' = 0.03
+; Steps: D0-D', D0, D0+D', D0 = {0.74, 0.77, 0.80, 0.77}
+; Pattern: DOWN, RETURN, UP, RETURN
+; Hold: 4 ms per step (> 2x worst-case ts @ Cj0=20mF)
+; Purpose: sensitivity table, power asymmetry for MPPT section
+; ===========================================================
+;
+; Step 2a: DOWN  D0 -> D0-D' = 0.77 -> 0.74
+35.000001m       0.74
+39m              0.74
+;
+; Step 2b: RETURN  D0-D' -> D0 = 0.74 -> 0.77
+39.000001m       0.77
+43m              0.77
+;
+; Step 2c: UP  D0 -> D0+D' = 0.77 -> 0.80
+43.000001m       0.80
+47m              0.80
+;
+; Step 2d: RETURN  D0+D' -> D0 = 0.80 -> 0.77
+47.000001m       0.77
+51m              0.77
+;
+; ===========================================================
+; PHASE 3: Large-Signal P&O Steps (51 - 67 ms)
+; Perturbation: 2*D' = 0.06
+; Steps: D0-2D', D0, D0+2D', D0 = {0.71, 0.77, 0.83, 0.77}
+; Pattern: DOWN, RETURN, UP, RETURN
+; Hold: 4 ms per step
+; Purpose: linearity boundary, peak current for SOA analysis
+; ===========================================================
+;
+; Step 3a: DOWN  D0 -> D0-2D' = 0.77 -> 0.71
+51.000001m       0.71
+55m              0.71
+;
+; Step 3b: RETURN  D0-2D' -> D0 = 0.71 -> 0.77
+55.000001m       0.77
+59m              0.77
+;
+; Step 3c: UP  D0 -> D0+2D' = 0.77 -> 0.83
+59.000001m       0.83
+63m              0.83
+;
+; Step 3d: RETURN  D0+2D' -> D0 = 0.83 -> 0.77
+63.000001m       0.77
+67m              0.77
+;
+; ===========================================================
+; PHASE 4: Final hold at MPP (67 - 70 ms)
+; Purpose: confirm return to steady state
+; ===========================================================
+;
+67m              0.77
+70m              0.77
