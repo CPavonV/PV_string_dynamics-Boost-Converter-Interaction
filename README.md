@@ -135,7 +135,7 @@ This repository is the simulation framework accompanying:
 
 The enhanced single-diode model (eSDM) implemented here was identified and validated at the cell level in:
 
-> C. Pavón-Vargas, L. E. Garcia-Marrero, and G. Petrone, "Dynamic photovoltaic modeling for circuit-emphasis simulation," 2025. [Online]. Available: http://dx.doi.org/10.2139/ssrn.5554662
+> C. Pavón-Vargas, L. E. Garcia-Marrero, and G. Petrone, "A Unified Model for Characterization of Photovoltaic Sources," IEEE Transactions on Industrial Electronics, 2026, doi: [10.1109/TIE.2026.3732421](https://doi.org/10.1109/TIE.2026.3732421).
 
 ## License
 
