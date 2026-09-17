@@ -13,8 +13,8 @@ PV_string_dynamics-Boost-Converter-Interaction/
 ├── LTSpice_files/
 │   ├── PV_BoostConverter.asc           # Main LTSpice schematic
 │   ├── PWM.asy                         # PWM generator symbol
-│   ├── SDM_PV_model.asc                # Enhanced single-diode model circuit
 │   ├── SDM_PV_model.asy                # Enhanced single-diode model symbol
+│   ├── SDM_PV_model.cir                # Enhanced single-diode model (encrypted)
 │   ├── Single_Boost_STEPS.txt          # PWL duty-cycle perturbation signal
 │   ├── dead_time.asy                   # Dead-time & complementary gate symbol
 │   └── switching.lib                   # Switching library for power electronics
@@ -28,7 +28,7 @@ PV_string_dynamics-Boost-Converter-Interaction/
 
 The circuit consists of three main blocks:
 
-**PV Source (X1)** — An enhanced single-diode model (eSDM) subcircuit representing a PV string with Ns=32 series cells and Np=1 parallel string (SOLBIAN SP16L cells). The dynamic behavior of the P-N junction is captured by three bias-dependent elements — differential conductance, diffusion capacitance, and junction capacitance — using the Berkeley SPICE semiconductor diode model instead of the ideal Shockley diode. Parameters are identified once from combined I–V and impedance-spectroscopy measurements and adapt automatically to the operating point (see the companion paper below).
+**PV Source (X1)** — An enhanced single-diode model (eSDM) subcircuit representing a PV string with Ns=32 series cells and Np=1 parallel string (SOLBIAN SP16L cells). The dynamic behavior of the P-N junction is captured by three bias-dependent elements — differential conductance, diffusion capacitance, and junction capacitance — using the Berkeley SPICE semiconductor diode model instead of the ideal Shockley diode. Parameters are identified once from combined I–V and impedance-spectroscopy measurements and adapt automatically to the operating point (see the companion paper below). The model is distributed as an encrypted subcircuit (`SDM_PV_model.cir`) while the underlying research is still evolving; it simulates normally in LTspice but its internal implementation is not human-readable. The symbol exposes four pins: `Gi+`/`Gi-` (irradiance input) and `Vpv+`/`Vpv-` (PV terminal), both referenced to circuit ground in this schematic.
 
 **Synchronous Boost Converter** — Built around two IRFP4668 MOSFETs (M1 low-side, M2 high-side) with 80 µH inductor, 18 µF input capacitor, and 4.7 µF output capacitor. Switching frequency is 100 kHz with 100 ns dead time. The output is loaded by a 48 V battery model (with 2.4 Ω series resistance). Gate drivers (U1, U3) are powered by independent 12 V supplies.
 
@@ -125,7 +125,7 @@ All perturbation parameters are in `LTSpice_files/Single_Boost_STEPS.txt`. To ad
 ## Requirements
 
 - **LTSpice XVII** (or newer) — available free from [Analog Devices](https://www.analog.com/en/design-center/design-tools-and-calculators/ltspice-simulator.html).
-- Place the `.asc` schematic, `.lib` files, and PWL file in the same directory, or update the file paths in the schematic accordingly.
+- Place the `.asc` schematic, `.asy` symbol, `.cir`/`.lib` model files, and PWL file in the same directory, or update the file paths in the schematic accordingly.
 
 ## Companion Paper
 
